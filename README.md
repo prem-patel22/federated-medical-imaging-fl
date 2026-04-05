@@ -25,27 +25,33 @@ Hospitals cannot share patient data due to **HIPAA, GDPR, and other privacy regu
 
 **Federated Learning** enables hospitals to collaboratively train AI models by sharing only model updates (weights/gradients), **never patient data**.
 
-┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-│ Hospital A  │ │ Hospital B  │ │ Hospital C  │
-│ 930 X-rays  │ │ 1,044 X-rays│ │ 497 X-rays  │
-└──────┬──────┘ └──────┬──────┘ └──────┬──────┘
-       │               │               │
-       ▼               ▼               ▼
-  Train Local     Train Local     Train Local
- (Private Data) (Private Data)   (Private Data)
-       │               │                │
-       └───────────────┼────────────────┘
-                       ▼
-                ┌─────────────┐
-                │ SERVER      │
-                │ Aggregates  │
-                │ Weights     │
-                └─────────────┘
-                       │
-    ┌──────────────────┼──────────────────┐
-    ▼                  ▼                  ▼
-  Better AI         Better AI          Better AI
- (No data seen)   (No data seen)     (No data seen)
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ Hospital A │ │ Hospital B │ │ Hospital C │
+│ 930 X-rays │ │ 1,044 X-rays │ │ 497 X-rays │
+│ (Private Data) │ │ (Private Data) │ │ (Private Data) │
+└────────┬────────┘ └────────┬────────┘ └────────┬────────┘
+│ │ │
+▼ ▼ ▼
+Train Local Train Local Train Local
+(3 epochs) (3 epochs) (3 epochs)
+│ │ │
+└───────────────────────┼───────────────────────┘
+│
+▼
+┌─────────────────────────┐
+│ SERVER │
+│ Aggregates Weights │
+│ (FedAvg Strategy) │
+└────────────┬────────────┘
+│
+┌───────────────────────┼───────────────────────┐
+│ │ │
+▼ ▼ ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ Better AI │ │ Better AI │ │ Better AI │
+│ 87.3% Accuracy │ │ 85.2% Accuracy │ │ 84.7% Accuracy │
+│ (No data seen) │ │ (No data seen) │ │ (No data seen) │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
 
  
 ## ✨ Features
